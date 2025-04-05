@@ -39,12 +39,19 @@ npm update
 ## For Termux/Ubuntu/SSH User
 ```bash
 pkg update && pkg upgrade
-pkg install git
-pkg install nodejs
+pkg install curl
 pkg install ffmpeg
+pkg install git
 pkg install imagemagick
-git clone https://github.com/nazedev/hitori
-cd hitori
+pkg install libwebp
+pkg install nodejs-lts
+pkg install npm
+pkg install python
+pkg install tesseract
+pkg install wget
+mkdir hidetagwabot
+cd hidetagwabot
+git clone https://github.com/Grenata-Comerade/hidetagwabot
 npm install
 ```
 
