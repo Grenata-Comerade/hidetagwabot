@@ -1,0 +1,24 @@
+{
+  "name": "hidetag",
+  "version": "1.0.0",
+  "description": "bot WhatsApp With baileys library and case type",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [
+    "bot wa, sc bot wa, bot wa md"
+  ],
+  "author": "Grenata",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@hapi/boom": "^10.0.1",
+    "@whiskeysockets/baileys": "^6.7.16",
+    "awesome-phonenumber": "^7.4.0",
+    "chalk": "^4.1.2",
+    "mongoose": "^8.12.1",
+    "node-cache": "^5.1.2",
+    "pino": "^9.6.0"
+  }
+}
