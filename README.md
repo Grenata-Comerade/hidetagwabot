@@ -72,6 +72,7 @@ node .
 ### Connection Options
 - Support Qr Code
 - Support Pairing Code
+- Support Termux and Pterodactyl
 ---
 
 ### Features
