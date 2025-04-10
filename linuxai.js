@@ -153,6 +153,96 @@ module.exports = linux = async (linux, m, chatUpdate, store) => {
             { quoted: m },
           );
         }
+        break;
+
+        case "start" /**@note button & cards message */:
+        {
+          // if (!m.isGroup) return m.reply(mess.group);
+          linux.sendMessage(m.chat, { react: { text: "⌚", key: m.key} });
+          const packages = [
+            {
+              title: "Test",
+              description: "Carousel Message",
+              buttonText: "Chat With Me",
+              buttonUrl:
+                "https://wa.me/%",
+            },
+          ];
+
+          const createImage = async (path) => {
+            const { imageMessage } = await generateWAMessageContent(
+              {
+                image: { url: path },
+              },
+              { upload: linux.waUploadToServer }
+            );
+            return imageMessage;
+          };
+
+          const imageUrl = ("./src/img/"); // Path lokal ke gambar
+          const cards = [];
+          for (const item of packages) {
+            const imageMessage = await createImage(imageUrl);
+            cards.push({
+              body: proto.Message.InteractiveMessage.Body.fromObject({
+                text: item.description,
+              }),
+              footer: proto.Message.InteractiveMessage.Footer.fromObject({
+                text: "`𝙿𝚘𝚠𝚎𝚛𝚎𝚍 𝙱𝚢 𝙱𝚊𝚒𝚕𝚎𝚢𝚜 𝙻𝚒𝚋𝚛𝚊𝚛𝚢`",
+              }),
+              header: proto.Message.InteractiveMessage.Header.fromObject({
+                title: item.title,
+                hasMediaAttachment: true,
+                imageMessage,
+              }),
+              nativeFlowMessage:
+                proto.Message.InteractiveMessage.NativeFlowMessage.fromObject({
+                  buttons: [
+                    {
+                      name: "cta_url",
+                      buttonParamsJson: `{"display_text":"${item.buttonText}","url":"${item.buttonUrl}"}`,
+                    },
+                  ],
+                }),
+            });
+          }
+
+          const carouselMessage = generateWAMessageFromContent(
+            m.chat,
+            {
+              viewOnceMessage: {
+                message: {
+                  interactiveMessage:
+                    proto.Message.InteractiveMessage.fromObject({
+                      body: proto.Message.InteractiveMessage.Body.create({
+                        text: "Carousel Message",
+                      }),
+                      footer: proto.Message.InteractiveMessage.Footer.create({
+                        text: "Pesan Geser",
+                      }),
+                      header: proto.Message.InteractiveMessage.Header.create({
+                        hasMediaAttachment: false,
+                      }),
+                      carouselMessage:
+                        proto.Message.InteractiveMessage.CarouselMessage.fromObject(
+                          {
+                            cards,
+                          }
+                        ),
+                    }),
+                },
+              },
+            },
+            {}
+          );
+
+          await linux.relayMessage(m.chat, carouselMessage.message, {
+            messageId: carouselMessage.key.id,
+          });
+
+          linux.sendMessage(m.chat, { react: { text: "⌚", key: m.key } });
+        }
+        
       default:
         if (budy.startsWith(">")) {
           if (!isCreator) return;
